@@ -1,18 +1,206 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../../components/Footer'
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-regular-svg-icons';
 
 function Home() {
+  const faqs = [
+    {
+      question: "What is EduCore?",
+      answer:
+        "EduCore is an interactive learning platform designed to help you unlock your core potential with personalized learning paths.",
+    },
+    {
+      question: "How can I enroll in a course?",
+      answer:
+        "You can enroll by signing up on our platform, selecting a course, and following the checkout process.",
+    },
+    {
+      question: "Are there free courses available?",
+      answer:
+        "Yes! EduCore offers a selection of free courses to get you started on your learning journey.",
+    },
+    {
+      question: "Can I access courses on mobile devices?",
+      answer:
+        "Absolutely! EduCore is fully responsive and can be accessed on both smartphones and tablets.",
+    },
+  ];
+
+  const [activeIndex, setActiveIndex] = useState(null);
+
+  const toggleFAQ = (index) => {
+    setActiveIndex(activeIndex === index ? null : index);
+  };
   return (
     <>
 
-        <Header/>
-        <div>
-            
-            Home
-    
+      <Header />
+      <div>
+
+        <div className='md:grid grid-cols-2 gap-6 '>
+          <div className='flex justify-center items-center p-10 '>
+            <p className='md:text-6xl text-5xl font-bold' style={{ color: "rgba(109, 100, 68, 1)" }}>Unlock Your Core Potential with EduCore</p>
+          </div>
+          <div className='hidden md:block'>
+            <img src="/WorkingWomen.png" alt="" />
+          </div>
         </div>
-        <Footer/>
+        <div className="w-full mx-auto p-4" style={{ backgroundColor: "rgba(237, 231, 215, 0.41)" }}>
+          <h1 className='font-bold text-2xl text-center' style={{ color: "rgba(109, 100, 68, 1)" }}>Our Trusted Partners</h1>
+          <Swiper
+            modules={[Navigation, Autoplay]}
+            spaceBetween={20}
+            slidesPerView={4} // default for mobile
+            navigation
+            autoplay={{
+              delay: 2500,
+              disableOnInteraction: false,
+            }}
+            loop={true}
+            breakpoints={{
+              640: { slidesPerView: 1 }, // from 640px (sm)
+              768: { slidesPerView: 2 }, // from 768px (md)
+              1024: { slidesPerView: 4 }, // from 1024px (lg)
+            }}
+            className="w-full"
+          >
+            <SwiperSlide>
+              <img
+                src="/c1-google.png"
+                alt="Google"
+                className="w-full h-[200px] object-contain"
+              />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img
+                src="/c2-amazon.png"
+                alt="Amazon"
+                className="w-full h-[200px] object-contain"
+              />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img
+                src="/c3-IBM.png"
+                alt="IBM"
+                className="w-full h-[200px] object-contain"
+              />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img
+                src="/c4-JPMorgan.png"
+                alt="JPMorgan"
+                className="w-full h-[200px] object-contain"
+              />
+            </SwiperSlide>
+            <SwiperSlide>
+              <img
+                src="/c5-zoho.png"
+                alt="Zoho"
+                className="w-full h-[200px] object-contain"
+              />
+            </SwiperSlide>
+          </Swiper>
+        </div>
+        <div className='p-3 text-[#6D6444]'>
+          <h1 className='text-center font-bold text-2xl' style={{ color: "rgba(109, 100, 68, 1)" }}>Popular Courses</h1>
+          <div className='p-10 md:grid grid-cols-4 gap-2 rounded-lg shadow-xl/30'>
+
+            <div className='rounded-xl h-70 w-50 p-2 flex justify-center md:mt-0 mt-2  flex-col' style={{ backgroundColor: "rgba(212, 204, 182, 0.41)" }} >
+              <img src="/flutter.png" alt="" height={"20px"} className='w-full' />
+              <p className='font-bold text-xl'>Developing mobile apps with flutter</p>
+              <p> ⭐️ 4.7  . 50 reviews</p>
+              <p>Intermediate Course     1-3 Months</p>
+            </div>
+            <div className='rounded-xl h-70 w-50 p-2 flex justify-center md:mt-0 mt-2  flex-col' style={{ backgroundColor: "rgba(212, 204, 182, 0.41)" }} >
+              <img src="/flutter.png" alt="" height={"20px"} className='w-full' />
+              <p className='font-bold text-xl'>Developing mobile apps with flutter</p>
+              <p> ⭐️ 4.7  . 50 reviews</p>
+              <p>Intermediate Course     1-3 Months</p>
+            </div>
+            <div className='rounded-xl h-70 w-50 p-2 flex justify-center md:mt-0 mt-2  flex-col' style={{ backgroundColor: "rgba(212, 204, 182, 0.41)" }} >
+              <img src="/flutter.png" alt="" height={"20px"} className='w-full' />
+              <p className='font-bold text-xl'>Developing mobile apps with flutter</p>
+              <p> ⭐️ 4.7  . 50 reviews</p>
+              <p>Intermediate Course     1-3 Months</p>
+            </div>
+            <div className='rounded-xl h-70 w-50 p-2 flex justify-center md:mt-0 mt-2  flex-col' style={{ backgroundColor: "rgba(212, 204, 182, 0.41)" }} >
+              <img src="/flutter.png" alt="" height={"20px"} className='w-full' />
+              <p className='font-bold text-xl'>Developing mobile apps with flutter</p>
+              <p> ⭐️ 4.7  . 50 reviews</p>
+              <p>Intermediate Course     1-3 Months</p>
+            </div>
+            <div className='rounded-xl h-70 w-50 p-2 flex justify-center md:mt-0 mt-2  flex-col' style={{ backgroundColor: "rgba(212, 204, 182, 0.41)" }} >
+              <img src="/flutter.png" alt="" height={"20px"} className='w-full' />
+              <p className='font-bold text-xl'>Developing mobile apps with flutter</p>
+              <p> ⭐️ 4.7  . 50 reviews</p>
+              <p>Intermediate Course     1-3 Months</p>
+            </div>
+          </div>
+        </div>
+        <div className='p-4' style={{ backgroundColor: "rgba(237, 231, 215, 0.41)" }}>
+
+          <h1 className='text-center font-bold text-[#6D6444] text-xl'>What Our Learners Say</h1>
+          <div className='md:grid grid-cols-3 gap-6 p-5 md:mx-20 text-[#6D6444]'>
+            <div className='rounded-xl md:mt-0 mt-3 h-60 w-60 bg-white flex justify-center items-center flex-col shadow-lg p-2'>
+              <img src="/p1.png" alt="" style={{ height: "80px", width: "80px" }} />
+              <h1 className='font-bold text-xl '>Lucy Jacob</h1>
+              <p className='text-sm text-center'>"I gained new skills that boosted my confidence and opened up career opportunities I didn’t think were possible."</p>
+            </div>
+            <div className='rounded-xl md:mt-0 mt-3 shadow-lg h-60 w-60 bg-white flex justify-center items-center flex-col p-2'>
+              <img src="/p2.png" alt="" style={{ height: "80px", width: "80px" }} />
+              <h1 className='font-bold text-xl'>John Job</h1>
+              <p className='text-sm text-center'>"EduCore has completely changed the way I learn. The courses are practical, easy to follow, and I can apply the skills directly at work."</p>
+            </div>
+            <div className='rounded-xl md:mt-0 mt-3 shadow-lg h-60 w-60 bg-white flex  items-center flex-col p-2'>
+              <img src="/p3.png" alt="" style={{ height: "80px", width: "80px" }} />
+              <h1 className='font-bold text-xl'>Lee Jen
+              </h1>
+              <p className='text-sm text-center'>“EduCore turned my free time into growth time.”</p>
+            </div>
+          </div>
+        </div>
+        <div className="max-w-4xl mx-auto p-6">
+      <h2 className="text-4xl font-bold text-center mb-8 text-[#6D6444]">
+        Frequently Asked Questions
+      </h2>
+
+      <div className="space-y-4">
+        {faqs.map((faq, index) => (
+          <div
+            key={index}
+            className="border border-gray-200 rounded-lg overflow-hidden"
+          >
+            {/* Question */}
+            <button
+              onClick={() => toggleFAQ(index)}
+              className="w-full text-left px-6 py-4 flex justify-between items-center bg-[#ede7d7] hover:bg-[#e0d9b5] transition-colors"
+            >
+              <span className="font-medium text-lg">{faq.question}</span>
+              <span className="text-2xl">
+                {activeIndex === index ? "-" : "+"}
+              </span>
+            </button>
+
+            {/* Answer */}
+            <div
+              className={`px-6 py-4 text-gray-700 transition-all duration-300 overflow-hidden ${
+                activeIndex === index ? "max-h-96" : "hidden"
+              }`}
+            >
+              {faq.answer}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+      </div>
+      <Footer />
     </>
   )
 }
