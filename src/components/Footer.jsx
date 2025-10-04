@@ -27,6 +27,9 @@ function Footer() {
             </div>
 
         </div>
+        <div className='w-full bg-white p-2'>
+                <h1 className='text-center text-[#625D48]'>© 2025 EduCore. All rights reserved.</h1>
+        </div>
     </div>
   )
 }
