@@ -24,19 +24,19 @@ function AdminSideBar() {
         </div>
 
         <div className="mt-3 flex items-center gap-x-2  " >
-          <Link to={''}>
+          <Link to={'/add-course'}>
               <FontAwesomeIcon icon={faBook} />
               Add Courses
             </Link>
         </div>
         <div className="mt-3 flex items-center gap-x-2">
-          <Link to={''}>
+          <Link to={'/course-list'}>
               <FontAwesomeIcon icon={faBook} />
               My Courses
             </Link>
         </div>
         <div className="mt-3 flex items-center gap-x-2">
-          <Link to={''}>
+          <Link to={'/students-enrolled'}>
               <FontAwesomeIcon icon={faBook} />
              Students Enrolled
             </Link>
