@@ -14,6 +14,8 @@ import ResourceAdmin from './admin/pages/ResourceAdmin'
 import SettingAdmin from './admin/pages/SettingAdmin'
 import CareerAdmin from './admin/pages/CareerAdmin'
 import Pnf from './pages/Pnf'
+import Course from './users/pages/Course'
+import MyEnrollments from './users/pages/MyEnrollments'
 
 
 
@@ -34,7 +36,9 @@ function App() {
       <Route path='/all-courses' element={<AllCourses/>} />
       <Route path='/:id/viewcourse' element={<ViewCourse/>} />
       <Route path='/profile' element={<Profile/>} />
+      <Route path='/:id/course' element={<Course/>} />
       <Route path='/careers' element={<Careers/>} />
+      <Route path='/my-enrollments' element={<MyEnrollments/>} />
       <Route path='/contact' element={<Contact/>} />
       <Route path='/admin-dashboard' element={loading?<Preloader/>:<DashboardAdmin/>}/>
       <Route path='/admin-resources' element={<ResourceAdmin/>} />
