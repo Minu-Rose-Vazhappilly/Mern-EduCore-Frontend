@@ -50,11 +50,28 @@ function Auth({register}) {
         const result = await loginAPI(userDetails)
         console.log(result);
         if(result.status == 200){
+          toast.success("Login successful")
+          sessionStorage.setItem("user",JSON.stringify(result.data.user))
+          sessionStorage.setItem("token",result.data.token)
+          setTimeout(()=>{
+            if(result.data.user.role == 'admin'){
+              navigate('/admin-dashboard')
+            }else{
+              navigate('/')
+            }
+          },2500)          
+        }else if(result.status == 401){
+          toast.warning(result.response.data)
+          setUserDetails({username:"",email:"",password:""})
           
         }else if(result.status == 404){
+          toast.warning(result.response.data)
+          setUserDetails({username:"",email:"",password:""})
           
-        }else{
-          console.log(result);
+        }
+        else{
+          toast.error("Something went wrong")
+           setUserDetails({username:"",email:"",password:""})
           
         }
         
