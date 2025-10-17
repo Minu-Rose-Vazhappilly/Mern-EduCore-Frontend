@@ -1,12 +1,12 @@
 import React from 'react'
-import Header from '../../users/components/Header'
+import AdminHeader from '../../admin/components/AdminHeader'
 import Footer from '../../components/Footer'
 import AdminSideBar from '../components/AdminSideBar'
 
 function StudentsEnrolled() {
   return (
     <div>
-        <Header/>
+        <AdminHeader/>
         <div className="md:grid grid-cols-3">
             <div className='col-span-1'>
                 <AdminSideBar/>

@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from '../../users/components/Header'
+import AdminHeader from '../../admin/components/AdminHeader'
 import Footer from '../../components/Footer'
 import AdminSideBar from '../components/AdminSideBar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -7,7 +7,7 @@ import { faUpload } from '@fortawesome/free-solid-svg-icons'
 
 function AddCourse() {
   return (
-    <div><Header/>
+    <div><AdminHeader/>
     <div className="md:grid grid-cols-3">
         <div className='col-span-1'>
             <AdminSideBar/>
