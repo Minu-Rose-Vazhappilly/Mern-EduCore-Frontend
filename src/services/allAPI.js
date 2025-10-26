@@ -12,3 +12,8 @@ export const loginAPI = async (reqBody)=>{
 export const googleloginAPI = async (reqBody)=>{
   return await  commonAPI("POST",`${SERVERURL}/google-login`,reqBody)
 }
+
+//upload single book
+export const addCourseAPI = async (reqBody,reqHeader)=>{
+  return await  commonAPI("POST",`${SERVERURL}/add-course`,reqBody,reqHeader)
+}

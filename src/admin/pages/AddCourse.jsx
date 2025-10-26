@@ -4,6 +4,8 @@ import AdminSideBar from "../components/AdminSideBar";
 import Footer from "../../components/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTrash, faUpload } from "@fortawesome/free-solid-svg-icons";
+import { ToastContainer,toast } from 'react-toastify'
+import { addCourseAPI } from "../../services/allAPI";
 
 function AddCourse() {
   
@@ -12,6 +14,7 @@ function AddCourse() {
   const [preview,setPreview] = useState({
     previewed:""
   })
+  const [imgPreview,setImgPreview] = useState("")
   console.log(previewList);
   
   const [courseDetails, setCourseDetails] = useState({
@@ -25,9 +28,10 @@ function AddCourse() {
         moduleTitle: "",
         moduleDescription: "",
         videos: [{ videotitle: "" }],
-        pdfs: [{ pdftitle: "", fileUrl: null }],
+        pdfs: [{ pdftitle: "" }],
       },
-    ],videoUrl: []
+    ],videoUrl: [],
+    fileUrl:[]
   });
   // const [videos,setVideos] = useState([])
   // const handleVideoUrl = (e)=>{
@@ -55,6 +59,12 @@ console.log(courseDetails);
   // Update course fields
   const handleCourseChange = (field, value) => {
     setCourseDetails((prev) => ({ ...prev, [field]: value }));
+    if(field == "thumbnail"){
+      const url = URL.createObjectURL(value)
+      console.log(url);
+      setImgPreview(url)
+      
+    }
   };
 
   
@@ -92,7 +102,14 @@ console.log(courseDetails);
   //   });
   
   
-    }else{
+    }else if(field == "fileUrl"){
+      const filePdfArray = [...courseDetails.fileUrl]
+    filePdfArray.push(value)
+    setCourseDetails((prev)=>({...prev,modules: updatedModules,fileUrl:filePdfArray}))
+    const url = URL.createObjectURL(value)
+  console.log(url);
+    }
+    else{
       const updatedModules = [...courseDetails.modules];
     updatedModules[moduleIndex][type][nestedIndex][field] = value;
     setCourseDetails((prev) => ({ ...prev, modules: updatedModules,videoUrl:fileArray }));
@@ -112,6 +129,56 @@ console.log(courseDetails);
   
   setPreviewList((prev)=>[...prev,updatedPreviews[moduleIndex] = url]);
 };
+
+const handleSubmit = async ()=>{
+
+  const {courseType,courseTitle,courseDescription,price,thumbnail,modules,videoUrl,fileUrl} = courseDetails
+  if(!courseType || !courseTitle || !courseDescription || !price || !thumbnail || modules.length == 0 || videoUrl.length !== modules.length || fileUrl.length !== modules.length || modules.some(
+    (mod) =>
+      !mod.moduleTitle ||
+       !mod.moduleDescription ||
+       !mod.videos[0].videotitle ||
+       !mod.pdfs[0].pdftitle
+  )){
+    toast.info("Please fill the form !!!")
+  }else{
+      const reqHeader = {
+            "Authorization":`Bearer ${token}`
+          }
+      const reqBody = new FormData()
+      for (let key in courseDetails) {
+  if (key === "modules") {
+    reqBody.append("modules", JSON.stringify(courseDetails.modules));
+  } else if (key === "videoUrl") {
+    courseDetails.videoUrl.forEach(video => reqBody.append("videoUrl", video));
+  } else if (key === "fileUrl") {
+    courseDetails.fileUrl.forEach(file => reqBody.append("fileUrl", file));
+  } else {
+    reqBody.append(key, courseDetails[key]);
+  }
+}
+try{
+    const result = await addCourseAPI(reqBody,reqHeader)
+    console.log(result);
+    if(result.status == 401){
+      toast.warning(result.response.data)
+
+    }else if(result.status == 200){
+      toast.success("Course Added Successfully")
+    }else{
+      toast.error("Something went wrong")
+    }
+    
+  }
+  catch(err){
+ console.log(err);
+ 
+  }
+  }
+
+  
+
+}
 
 
   // Add new module
@@ -176,6 +243,10 @@ console.log(courseDetails);
                 onChange={(e) => handleCourseChange("thumbnail", e.target.files[0])}
                 className="mb-4"
               />
+              {
+                imgPreview && 
+                <img src={imgPreview} alt="" width={"300px"} height={"50px"} />
+              }
             </div>
 
             {/* Modules */}
@@ -290,6 +361,10 @@ console.log(courseDetails);
               <FontAwesomeIcon icon={faPlus} className="mr-2" />
               Add Module
             </button>
+            <div className="flex justify-end w-full px-5">
+                        <button type="button" onClick={handleSubmit}  className='bg-amber-600 text-white rounded  border py-3 px-4 hover:text-amber-600 hover:border-amber-600 hover:bg-white me-3'>Submit</button>
+                         <button type="button"  className='bg-green-600 text-white rounded  border py-3 px-4 hover:text-green-600 hover:border-green-600 hover:bg-white'>Reset</button>
+                    </div>
           </form>
 
           {/* <pre className="mt-4 bg-gray-100 p-3 rounded">
@@ -298,6 +373,19 @@ console.log(courseDetails);
         </div>
       </div>
       <Footer />
+      <ToastContainer
+      position="top-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick={false}
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="colored"
+      
+      />
     </div>
   );
 }
