@@ -17,3 +17,8 @@ export const googleloginAPI = async (reqBody)=>{
 export const addCourseAPI = async (reqBody,reqHeader)=>{
   return await  commonAPI("POST",`${SERVERURL}/add-course`,reqBody,reqHeader)
 }
+
+//home cours api
+export const getHomeCoursesAPI = async ()=>{
+  return await  commonAPI("GET",`${SERVERURL}/home-courses`)
+}
