@@ -22,3 +22,11 @@ export const addCourseAPI = async (reqBody,reqHeader)=>{
 export const getHomeCoursesAPI = async ()=>{
   return await  commonAPI("GET",`${SERVERURL}/home-courses`)
 }
+export const getAllCoursesAPI = async (search,reqHeader)=>{
+  return await  commonAPI("GET",`${SERVERURL}/all-courses?search=${search}`,{},reqHeader)
+
+}
+
+export const getSingleCourseAPI = async (courseId,reqHeader)=>{
+  return await  commonAPI("GET",`${SERVERURL}/courses/${courseId}/view`,{},reqHeader)
+}

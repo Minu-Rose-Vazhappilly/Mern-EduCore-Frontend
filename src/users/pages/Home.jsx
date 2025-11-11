@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../../components/Footer'
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -10,10 +10,18 @@ import { faStar } from '@fortawesome/free-regular-svg-icons';
 import { useEffect } from 'react';
 import { getHomeCoursesAPI } from '../../services/allAPI';
 import SERVERURL from '../../services/serverURL';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { searchCourseContext } from '../../contextAPI/ContextShare';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { ToastContainer,toast } from 'react-toastify'
 
 function Home() {
+
   const [homeCourses,setHomeCourses] = useState([])
+  const {searchKey,setSearchKey} = useContext(searchCourseContext)
+
+  const navigate = useNavigate()
+
 
   const faqs = [
     {
@@ -50,6 +58,21 @@ function Home() {
   const toggleFAQ = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
+
+  const searchCourse = ()=>{
+  if(!searchKey){
+    toast.warning("Please provide a book title here!!!")
+  }else if(!sessionStorage.getItem("token")){
+    toast.warning("Please Login to search books")
+    setTimeout(()=>{
+      navigate('/login')
+    },2500);
+  }else if(sessionStorage.getItem('token') && searchKey){
+    navigate('/all-courses')
+  }else{
+    toast.error("Something went wrong")
+  }
+}
 
   const getHomeCourses = async ()=>{
     try{
@@ -134,9 +157,18 @@ function Home() {
             </SwiperSlide>
           </Swiper>
         </div>
-        <div className='p-3 text-[#6D6444] '>
-          <h1 className='text-center font-bold text-2xl' style={{ color: "rgba(109, 100, 68, 1)" }}>Popular Courses</h1>
-          <div className='p-10 md:grid grid-cols-4 gap-2 '>
+        <div className='p-3 w-full text-[#6D6444] flex flex-col justify-center items-center' >
+          <div className='mt-9 relative md:w-100 w-full' >
+              <input type="text" onChange={e=>setSearchKey(e.target.value)} className=' text-gray-500 p-2 rounded-full w-100 focus:outline-0 ' placeholder='Search Books'  />
+              <button
+
+                className="absolute right-3 top-1/2 -translate-y-1/2  text-blue-400"
+              >
+                <FontAwesomeIcon onClick={searchCourse} icon={faMagnifyingGlass} />
+              </button>
+            </div>
+          <h1 className='text-center font-bold text-2xl mt-4' style={{ color: "rgba(109, 100, 68, 1)" }}>Popular Courses</h1>
+          <div className='p-10 md:grid grid-cols-4 gap-6 '>
 
             { homeCourses?.length>0 ?
                 homeCourses.map((items)=>(
@@ -220,6 +252,19 @@ function Home() {
     </div>
       </div>
       <Footer />
+      <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+            
+            />
     </>
   )
 }

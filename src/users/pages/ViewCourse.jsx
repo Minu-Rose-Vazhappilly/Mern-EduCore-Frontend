@@ -1,28 +1,74 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../../components/Footer'
+import { getSingleCourseAPI } from '../../services/allAPI'
+import { ToastContainer,toast } from 'react-toastify'
+import { useParams } from 'react-router-dom'
+import SERVERURL from '../../services/serverURL'
 
 function ViewCourse() {
+  const {id} = useParams()
+  const [course,setCourse] = useState({})
+
+useEffect(()=>{
+    viewCourseDetails()
+  },[])
+  console.log(course);
+  
+  const viewCourseDetails = async ()=>{
+    const token = sessionStorage.getItem("token")
+    if(token){
+      const reqHeader = {
+        "Authorization":`Bearer ${token}`
+      }
+      try{
+        const result = await getSingleCourseAPI(id,reqHeader)
+        if(result.status == 200){
+          setCourse(result.data)
+
+        }else if(result.response.status == 401){
+          toast.warning(result.response.data)
+        }else{
+          console.log(result);
+          
+        }
+
+      }catch{
+        console.log(err);
+        
+      }
+    }
+  }
   return (
     <div>
       <Header/>
-      <div className='md:grid grid-cols-3 gap-3 p-4'>
+       <div className='md:grid grid-cols-3 gap-3 p-4'>
           <div className='col-span-2'>
-            <h1 className='text-2xl mb-3'>Flutter & Dart - Complete App Development Course Specialization</h1>
-            <button className='p-2 bg-blue-400 rounded-lg text-white'>Enroll</button>
+            <h1 className='text-2xl mb-3'>{course.courseTitle
+}</h1>
+            <button className='p-2 bg-blue-400 rounded-lg text-white'>Enroll ${course.price}</button>
           </div>
           <div className='col-span-1 md:block hidden'>
-            <img src="/flutter.png" alt="" />
+            <img  src={`${SERVERURL}/${course.thumbnail}`} alt="" />
           </div>
       </div>
       <div className='w-full bg-[#EDE7D7] p-8'>
         <div className='shadow-lg rounded-lg p-3 bg-[#DED6B5] text-[#6D6444] font-bold'>
           <h1 className='mb-2'>Course details</h1>
           <p className='mb-2'><p>What you'll learn</p>
-<p>Set up Flutter and Visual Studio Code to start building mobile apps</p>
-<p>Develop mobile apps using stateful and stateless widgets in Flutter</p>
-<p>Integrate SQLite databases and Firebase for data persistence and real-time sync</p>
-<p>Master Dart programming concepts, including OOP principles and async operations</p></p>
+<p>{course.courseDescription}</p>
+{
+  course.modules?.length > 0 ?
+  course.modules.map(item=>(
+    <p>
+      <p>{item.moduleTitle}</p>
+      <p>{item.moduleDescription}</p>
+    </p>
+  ))
+  :
+  <p>No Module</p>
+}
+</p>
 
 <p className='mb-2'><p>4 weeks to complete</p>
 <p>at 10 hours a week</p></p>
@@ -57,6 +103,19 @@ function ViewCourse() {
           </div>
         </div>
       <Footer/>
+      <ToastContainer
+                  position="top-right"
+                  autoClose={5000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick={false}
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                  theme="colored"
+                  
+                  />
     </div>
   )
 }
