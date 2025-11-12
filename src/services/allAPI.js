@@ -22,6 +22,9 @@ export const addCourseAPI = async (reqBody,reqHeader)=>{
 export const getHomeCoursesAPI = async ()=>{
   return await  commonAPI("GET",`${SERVERURL}/home-courses`)
 }
+export const getAllJobAPI = async (searchKey)=>{
+  return await  commonAPI("GET",`${SERVERURL}/get-allJobs?search=${searchKey}`,{})
+}
 export const getAllCoursesAPI = async (search,reqHeader)=>{
   return await  commonAPI("GET",`${SERVERURL}/all-courses?search=${search}`,{},reqHeader)
 
@@ -29,4 +32,24 @@ export const getAllCoursesAPI = async (search,reqHeader)=>{
 
 export const getSingleCourseAPI = async (courseId,reqHeader)=>{
   return await  commonAPI("GET",`${SERVERURL}/courses/${courseId}/view`,{},reqHeader)
+}
+export const updateUserProfileAPI = async (reqBody,reqHeader)=>{
+  return await  commonAPI("PUT",`${SERVERURL}/user-profile/edit`,reqBody,reqHeader)
+}
+ export const addApplicationAPI = async (reqBody,reqHeader)=>{
+  return await  commonAPI("POST",`${SERVERURL}/application/add`,reqBody,reqHeader)
+}
+
+//add-Job
+export const addJobAPI = async (reqBody,reqHeader)=>{
+  return await commonAPI("POST",`${SERVERURL}/admin/addJob`,reqBody,reqHeader)
+}
+
+export const removeJobAPI = async (jobId,reqHeader)=>{
+  return await commonAPI("DELETE",`${SERVERURL}/job/${jobId}/remove`,{},reqHeader)
+}
+
+//list applications - called by admin career component
+export const getAllApplicationAPI = async (reqHeader)=>{
+  return await commonAPI("GET",`${SERVERURL}/all-application`,{},reqHeader)
 }
