@@ -19,6 +19,8 @@ import MyEnrollments from './users/pages/MyEnrollments'
 import AddCourse from './admin/pages/AddCourse'
 import StudentsEnrolled from './admin/pages/StudentsEnrolled'
 import CourseList from './admin/pages/CourseList'
+import PaymentSuccess from './users/pages/PaymentSuccess'
+import PaymentError from './users/pages/PaymentError'
 
 
 
@@ -37,6 +39,8 @@ function App() {
       <Route path='/login' element={<Auth/>}/>
       <Route path='/register' element={<Auth register={true}/>}/>
       <Route path='/all-courses' element={<AllCourses/>} />
+      <Route path='/payment-success' element={<PaymentSuccess/>}/>
+      <Route path='/payment-error' element={<PaymentError/>}/>
       <Route path='/:id/viewcourse' element={<ViewCourse/>} />
       <Route path='/profile' element={<Profile/>} />
       <Route path='/:id/course' element={<Course/>} />

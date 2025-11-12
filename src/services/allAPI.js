@@ -53,3 +53,19 @@ export const removeJobAPI = async (jobId,reqHeader)=>{
 export const getAllApplicationAPI = async (reqHeader)=>{
   return await commonAPI("GET",`${SERVERURL}/all-application`,{},reqHeader)
 }
+
+export const makePaymentAPI = async (reqBody,reqHeader)=>{
+  return await commonAPI("POST",`${SERVERURL}/make-payment`,reqBody,reqHeader)
+}
+export const verifyPaymentAPI = async (session_id,reqHeader)=>{
+  return await commonAPI("GET",`${SERVERURL}/verify-payment?session_id=${session_id}`,{},reqHeader)
+}
+export const enrolledAPI = async (reqHeader)=>{
+  return await commonAPI("GET",`${SERVERURL}/get-enrolled-details`,{},reqHeader)
+}
+export const enrolledStatsAPI = async (reqHeader)=>{
+  return await commonAPI("GET",`${SERVERURL}/get-enrolled-stats`,{},reqHeader)
+}
+export const updateAdminProfileAPI = async (reqBody,reqHeader)=>{
+  return await  commonAPI("PUT",`${SERVERURL}/admin-profile/edit`,reqBody,reqHeader)
+}

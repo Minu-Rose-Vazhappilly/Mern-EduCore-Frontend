@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AdminSideBar from '../components/AdminSideBar'
 import Footer from '../../components/Footer'
 import AdminHeader from '../components/AdminHeader'
@@ -6,9 +6,95 @@ import { Link } from 'react-router-dom'
 import { faUser } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen } from '@fortawesome/free-solid-svg-icons'
+import { updateAdminProfileAPI } from '../../services/allAPI'
+import { ToastContainer,toast } from 'react-toastify'
+import SEVERURL from '../../services/serverURL'
+import { useContext } from 'react'
+import { adminUpdateContext } from '../../contextAPI/ContextShare'
+import SERVERURL from '../../services/serverURL'
 
 
 function SettingAdmin() {
+  const {adminEditResponse,setAdminEditResponse} = useContext(adminUpdateContext)
+  const [userDetails,setUserDetails] = useState({username:"",password:"",cpassword:"",profile:"",role:""})
+  const [token,setToken] = useState("")
+  const [existingProfile,setExistingProfile] = useState("")
+  const [preview,setPreview] = useState("")
+  
+  //console.log(token);
+  console.log(userDetails);
+  
+  
+
+  useEffect(()=>{
+          if(sessionStorage.getItem("token")){
+              const userToken = sessionStorage.getItem("token")
+              setToken(userToken)
+              const user = JSON.parse(sessionStorage.getItem("user"))
+              setUserDetails({username:user.username,password:user.password,cpassword:user.password,role:user.role})
+              setExistingProfile(user.profile)
+          }
+      },[])
+
+      const handlePictureUpload = (e)=>{
+        setUserDetails({...userDetails,profile:e.target.files[0]})
+        const url = URL.createObjectURL(e.target.files[0])
+        setPreview(url)
+    }
+
+    const handleReset = ()=>{
+        const user = JSON.parse(sessionStorage.getItem("user"))
+        setUserDetails({username:user.username,password:user.password,cpassword:user.password,role:user.role})
+        setExistingProfile(user.profile)
+        setPreview("")
+    }
+
+    const handleUpdate = async()=>{
+            const {username,password,role,cpassword,profile} = userDetails
+            if(!username || !password || !cpassword ){
+                toast.info("Please fill the form completely")
+            }else{ 
+                if(password != cpassword){
+                toast.warning("Password and confirm password must be same")
+            }else{
+                const reqHeader = {
+                "Authorization":`Bearer ${token}`
+              }
+              const reqBody = new FormData()
+              if(preview){
+                for(let key in userDetails){
+                    reqBody.append(key,userDetails[key])
+                }
+                const result = await updateAdminProfileAPI(reqBody,reqHeader)
+                if(result.status == 200){
+                    toast.success("Profile updated successfully")
+                    sessionStorage.setItem("user",JSON.stringify(result.data))
+                    handleReset()
+                    setAdminEditResponse(result.data)
+                }else{
+                    toast.error("Something went wrong")
+                    console.log(result);
+                    
+                }
+              }else{
+                const result = await updateAdminProfileAPI({username,password,role,profile:existingProfile,
+                },reqHeader)
+                if(result.status == 200){
+                    toast.success("Profile updated successfully")
+                    sessionStorage.setItem("user",JSON.stringify(result.data))
+                    handleReset()
+                    
+                    setAdminEditResponse(result.data)
+                }else{
+                    toast.error("Something went wrong")
+                    console.log(result);
+                    
+                }
+              }
+    
+            }
+        }
+        }
 
   return (
     <div>
@@ -31,47 +117,48 @@ function SettingAdmin() {
               <div>
                 <div className="bg-[#CFCDB6] md:mt-0 mt-5 rounded-lg flex flex-col justify-center items-center py-5  w-full max-w-[350px] aspect-[5/4] mx-auto " >
                   <div className="relative inline-block">
-                    <label htmlFor="adminPic">
-                      {/* User Icon Circle */}
-                      <div
-                        className="bg-gray-400 mb-4 rounded-full text-white flex justify-center items-center text-3xl"
-                        style={{ width: "80px", height: "80px" }}
-                      >
-                        <FontAwesomeIcon icon={faUser} />
-                      </div>
+                    <label htmlFor="profilePic">
+                        <input onChange={e=>handlePictureUpload(e)} type="file" id='profilePic' style={{display:'none'}} />
+                        {
+                            existingProfile==""?
+                            <img className='' style={{width:"150px",height:'150px',borderRadius:'50%'}} src={preview? preview:"https://png.pngtree.com/png-vector/20230831/ourlarge/pngtree-man-avatar-image-for-profile-png-image_9197911.png" } alt="profile" />
+                            : existingProfile.startsWith("https://lh3.googleusercontent.com/")?
+                            <img className='' style={{width:"150px",height:'150px',borderRadius:'50%'}} src={preview?preview:existingProfile} alt="profile" />
+                            :
+                            <img className='' style={{width:"150px",height:'150px',borderRadius:'50%'}} src={preview?preview:`${SERVERURL}/uploads/${existingProfile}`} alt="profile" />
 
-                      {/* Pen Icon Overlay */}
-                      <FontAwesomeIcon
-                        icon={faPen}
-                        className="absolute bottom-4 right-1 bg-white text-yellow-400 rounded-full p-2 text-sm shadow"
-                      />
+                        }
+                        <button className="bg-yellow-300   text-white py-3 px-4 rounded flex justify-center" style={{marginLeft:'75px',marginTop:'-20px',width:"30px",height:"30px"}}><FontAwesomeIcon icon={faPen}/></button>
                     </label>
 
                     {/* Hidden File Input */}
-                    <input type="file" id="adminPic" className="hidden" />
+                    
                   </div>
 
-                  <form action="" className="w-full px-5  ">
+                  <form action="" className="w-full px-5 mt-4 ">
                     <input
                       type="text"
+                      value={userDetails.username} onChange={e=>setUserDetails({...userDetails,username:e.target.value})}
                       className="w-full bg-white p-1  rounded"
                       placeholder="Username"
                     />
                     <input
                       type="text"
+                      value={userDetails.password} onChange={e=>setUserDetails({...userDetails,password:e.target.value})}
                       className="w-full bg-white p-1 mt-1 rounded"
                       placeholder="Password"
                     />
                     <input
                       type="text"
+                      value={userDetails.cpassword} onChange={e=>setUserDetails({...userDetails,cpassword:e.target.value})}
                       className="w-full bg-white p-1 mt-1 rounded"
                       placeholder="Confirm Password"
                     />
 
                   </form>
                   <div className='grid grid-cols-2 gap-3 w-full px-5'>
-                    <button className="bg-orange-400 text-white   text-center  px-3 py-1 mt-3 rounded-lg">Reset</button>
-                    <button className="bg-green-600 text-white   text-center  px-3 py-1 mt-3 rounded-lg">Update</button>
+                    <button onClick={handleReset} className="bg-orange-400 text-white   text-center  px-3 py-1 mt-3 rounded-lg">Reset</button>
+                    <button type='button' onClick={handleUpdate}  className="bg-green-600 text-white   text-center  px-3 py-1 mt-3 rounded-lg">Update</button>
                   </div>
                 </div>
               </div>
@@ -80,6 +167,19 @@ function SettingAdmin() {
         </div>
       </div>
       <Footer />
+       <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="colored"
+              
+              />
     </div>
   )
 }

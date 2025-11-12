@@ -2,8 +2,36 @@ import React from 'react'
 import Footer from '../../components/Footer'
 import AdminSideBar from '../components/AdminSideBar'
 import AdminHeader from '../../admin/components/AdminHeader'
+import { useEffect } from 'react'
+import { useState } from 'react'
+import { enrolledStatsAPI } from '../../services/allAPI'
 
 function CourseList() {
+  const [enrolled,setEnrolled] = useState([])
+    console.log(enrolled);
+    
+  
+    useEffect(()=>{
+      enrolledDetails()
+    },[])
+  
+    const enrolledDetails = async()=>{
+       const token = sessionStorage.getItem("token");
+  const reqHeader = {
+    "Authorization": `Bearer ${token}`
+  };
+      try{
+        const result = await enrolledStatsAPI(reqHeader)
+        if(result.status == 200){
+          setEnrolled(result.data)
+        }else{
+  
+        }
+      }catch(err){
+        console.log(err);
+        
+      }
+    }
   return (
     <div>
         <AdminHeader/>
@@ -22,24 +50,17 @@ function CourseList() {
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td class="border border-gray-500 px-4 py-2">1</td>
-      <td class="border border-gray-500 px-4 py-2">Flutter</td>
-      <td class="border border-gray-500 px-4 py-2">$150</td>
-      <td class="border border-gray-500 px-4 py-2">20</td>
-    </tr>
-    <tr>
-      <td class="border border-gray-500 px-4 py-2">2</td>
-      <td class="border border-gray-500 px-4 py-2">MERN STACK</td>
-      <td class="border border-gray-500 px-4 py-2">$290</td>
-      <td class="border border-gray-500 px-4 py-2">30</td>
-    </tr>
-    <tr>
-      <td class="border border-gray-500 px-4 py-2">3</td>
-      <td class="border border-gray-500 px-4 py-2">Cloud Computing</td>
-      <td class="border border-gray-500 px-4 py-2">$300</td>
-      <td class="border border-gray-500 px-4 py-2">20</td>
-    </tr>
+    {enrolled?.length>0 ?
+    enrolled?.map((item,index)=>(<tr>
+      <td class="border border-gray-500 px-4 py-2">{index+1}</td>
+      <td class="border border-gray-500 px-4 py-2">{item.courseTitle}</td>
+      <td class="border border-gray-500 px-4 py-2">{item.totalEarnings}</td>
+      <td class="border border-gray-500 px-4 py-2">{item.totalStudents}</td>
+    </tr>))
+    :
+    <p>No Data</p>
+      }
+    
   </tbody>
 </table>
 

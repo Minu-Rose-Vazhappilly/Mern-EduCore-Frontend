@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../../components/Footer'
-import { getSingleCourseAPI } from '../../services/allAPI'
+import { getSingleCourseAPI, makePaymentAPI } from '../../services/allAPI'
 import { ToastContainer,toast } from 'react-toastify'
 import { useParams } from 'react-router-dom'
 import SERVERURL from '../../services/serverURL'
+import {loadStripe} from '@stripe/stripe-js';
 
 function ViewCourse() {
   const {id} = useParams()
@@ -14,6 +15,43 @@ useEffect(()=>{
     viewCourseDetails()
   },[])
   console.log(course);
+
+  const handlePayment = async ()=>{
+    console.log("Inside handlePayment");
+    //stripe instance
+    const stripe = await loadStripe('pk_test_51SPbdoDHLUbAabhFN8XgLs3MGuUxAKjpywP3RsFp7ZixSdSwzJjv6ruMeLgP73FzIlEI03sEm5t0xzGTEh7P2HbC00LVNcf1G2');
+    //reqBody - course detail
+    //reqHeader - token
+    const token = sessionStorage.getItem("token") 
+    if(token){
+      const reqHeader = {
+        "Authorization":`Bearer ${token}`
+      }
+      try{
+
+        const result = await makePaymentAPI(course,reqHeader)
+        console.log(result);
+
+       if(result.status == 200) {const checkoutSessionURL =  result.data.checkoutSessionURL
+
+        if(checkoutSessionURL){
+          //redirect
+          window.location.href = checkoutSessionURL
+        }}else if(result.status == 400){
+          toast.warning("Already enrolled")
+        }else if(result.status == 404){
+          toast.warning("user or course not found")
+        }else{
+          toast.error("Something went wrong")
+        }
+      }catch(err){
+        console.log(err);
+        
+      }
+
+    }
+    
+  }
   
   const viewCourseDetails = async ()=>{
     const token = sessionStorage.getItem("token")
@@ -46,7 +84,7 @@ useEffect(()=>{
           <div className='col-span-2'>
             <h1 className='text-2xl mb-3'>{course.courseTitle
 }</h1>
-            <button className='p-2 bg-blue-400 rounded-lg text-white'>Enroll ${course.price}</button>
+            <button onClick={handlePayment} className='p-2 bg-blue-400 rounded-lg text-white'>Enroll ${course.price}</button>
           </div>
           <div className='col-span-1 md:block hidden'>
             <img  src={`${SERVERURL}/${course.thumbnail}`} alt="" />

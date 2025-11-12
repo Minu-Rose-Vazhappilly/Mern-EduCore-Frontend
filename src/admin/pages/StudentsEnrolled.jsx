@@ -2,8 +2,37 @@ import React from 'react'
 import AdminHeader from '../../admin/components/AdminHeader'
 import Footer from '../../components/Footer'
 import AdminSideBar from '../components/AdminSideBar'
+import { useState } from 'react'
+import { enrolledAPI } from '../../services/allAPI'
+import { ToastContainer,toast } from 'react-toastify'
+import { useEffect } from 'react'
 
 function StudentsEnrolled() {
+  const [enrolled,setEnrolled] = useState([])
+  console.log(enrolled);
+  
+
+  useEffect(()=>{
+    enrolledDetails()
+  },[])
+
+  const enrolledDetails = async()=>{
+     const token = sessionStorage.getItem("token");
+const reqHeader = {
+  "Authorization": `Bearer ${token}`
+};
+    try{
+      const result = await enrolledAPI(reqHeader)
+      if(result.status == 200){
+        setEnrolled(result.data)
+      }else{
+
+      }
+    }catch(err){
+      console.log(err);
+      
+    }
+  }
   return (
     <div>
         <AdminHeader/>
@@ -22,24 +51,17 @@ function StudentsEnrolled() {
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td class="border border-gray-500 px-4 py-2">1</td>
-      <td class="border border-gray-500 px-4 py-2">Aarav Sharma</td>
-      <td class="border border-gray-500 px-4 py-2">Web Development</td>
-      <td class="border border-gray-500 px-4 py-2">2025-10-06</td>
-    </tr>
-    <tr>
-      <td class="border border-gray-500 px-4 py-2">2</td>
-      <td class="border border-gray-500 px-4 py-2">Ananya Nair</td>
-      <td class="border border-gray-500 px-4 py-2">Data Science</td>
-      <td class="border border-gray-500 px-4 py-2">2025-10-05</td>
-    </tr>
-    <tr>
-      <td class="border border-gray-500 px-4 py-2">3</td>
-      <td class="border border-gray-500 px-4 py-2">Rahul Menon</td>
-      <td class="border border-gray-500 px-4 py-2">Cloud Computing</td>
-      <td class="border border-gray-500 px-4 py-2">2025-10-04</td>
-    </tr>
+    {enrolled?.length>0 ?
+     enrolled?.map((item,index)=>(<tr>
+      <td class="border border-gray-500 px-4 py-2">{index+1}</td>
+      <td class="border border-gray-500 px-4 py-2">{item.userId.username}</td>
+      <td class="border border-gray-500 px-4 py-2">{item.courseTitle}</td>
+      <td class="border border-gray-500 px-4 py-2">{item.enrolledAt}</td>
+    </tr>))
+    :
+    <p>No Students Enrolled</p>
+    }
+   
   </tbody>
 </table>
 
@@ -47,6 +69,19 @@ function StudentsEnrolled() {
             </div>
         </div>
         <Footer/>
+        <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        
+        />
         </div>
   )
 }
