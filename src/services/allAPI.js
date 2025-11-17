@@ -66,6 +66,16 @@ export const enrolledAPI = async (reqHeader)=>{
 export const enrolledStatsAPI = async (reqHeader)=>{
   return await commonAPI("GET",`${SERVERURL}/get-enrolled-stats`,{},reqHeader)
 }
+export const enrolledCourseAPI = async (reqHeader)=>{
+  return await commonAPI("GET",`${SERVERURL}/user-enrolled`,{},reqHeader)
+}
 export const updateAdminProfileAPI = async (reqBody,reqHeader)=>{
   return await  commonAPI("PUT",`${SERVERURL}/admin-profile/edit`,reqBody,reqHeader)
+}
+
+export const getSingleEnrolledCourseAPI = async (courseId,reqHeader)=>{
+  return await  commonAPI("GET",`${SERVERURL}/user-acourse-enrolled/${courseId}`,{},reqHeader)
+}
+export const updatedSingleEnrolledCourseAPI = async (reqBody,reqHeader)=>{
+  return await  commonAPI("PUT",`${SERVERURL}/user-updated-course-enrolled`,reqBody,reqHeader)
 }

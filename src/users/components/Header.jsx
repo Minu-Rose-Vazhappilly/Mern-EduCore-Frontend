@@ -8,6 +8,7 @@ import React, { useContext, useEffect,useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { userUpdateContext } from '../../contextAPI/ContextShare'
 import SERVERURL from '../../services/serverURL'
+import { userAuthContext } from '../../contextAPI/AuthContext'
 
 
 
@@ -19,6 +20,8 @@ function Header() {
   const [dropDownStatus,setDropDownStatus] = useState(false)
   const navigate = useNavigate()
   const {userEditResponse} = useContext(userUpdateContext)
+  const {role,setRole,authorisedUser,setAuthorisedUser} = useContext(userAuthContext) 
+
 
   useEffect(()=>{
     if(sessionStorage.getItem("token")){
@@ -31,6 +34,10 @@ function Header() {
 
    const logout = ()=>{
     sessionStorage.clear()
+    setToken("")
+    setUserDp("")
+    setAuthorisedUser(false)
+    setDropDownStatus(false)
     navigate('/')
     
   }

@@ -90,7 +90,7 @@ function CareerAdmin() {
   }
   return (
 
-     <div>
+     <div className='font-bold'  style={{backgroundImage:`url("https://cdn.wallpapersafari.com/9/77/1UDgMj.jpg")`,backgroundPosition:"center",backgroundSize:"cover",backgroundRepeat:"no-repeat"}}>
       <AdminHeader />
       <div className='md:grid grid-cols-4'>
         <div className='col-span-1'><AdminSideBar /></div>
@@ -156,7 +156,7 @@ function CareerAdmin() {
                {
                 allJobs?.length>0?
                 allJobs.map(job=>(
-                <div key={job?._id} className="w-full md:max-w-[800px]  shadow p-4 mt-4">
+                <div key={job?._id} className="w-full md:max-w-[800px] font-bold  shadow-2xl p-4 mt-4">
                           <div className='flex justify-between'><h1>  {job?.title}</h1>
                             <button onClick={() => removeJob(job?._id)} className='bg-red-500 rounded px-3 py-2 text-white'>Delete <FontAwesomeIcon icon={faTrash} /></button>
                           </div>

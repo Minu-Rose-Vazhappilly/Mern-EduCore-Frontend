@@ -45,8 +45,7 @@ function Profile() {
       
       {/* About section */}
       <p className='md:px-20 px-5 my-5 text-justify'>
-        Welcome to your learning dashboard. Here you can manage your enrolled courses, track your progress, 
-        and access certificates for completed courses. Keep learning and growing your skills!
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae assumenda in pariatur similique quae minima beatae. Distinctio, omnis adipisci cum ipsum voluptatem perspiciatis quos, quia asperiores accusamus dolorem itaque culpa?
       </p>
 
       {/* Tabs */}

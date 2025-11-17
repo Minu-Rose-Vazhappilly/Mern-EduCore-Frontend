@@ -33,13 +33,13 @@ function CourseList() {
       }
     }
   return (
-    <div>
+    <div className=''  style={{backgroundImage:`url("https://cdn.wallpapersafari.com/9/77/1UDgMj.jpg")`,backgroundPosition:"center",backgroundSize:"cover",backgroundRepeat:"no-repeat"}}>
         <AdminHeader/>
         <div className="md:grid grid-cols-3">
             <div className='col-span-1'>
                 <AdminSideBar/>
             </div>
-            <div className='col-span-2 md:p-6 md:my-0 my-3'>
+            <div className='col-span-2 md:p-6 md:my-0 my-3 overflow-x-auto'>
                 <table class="table-auto border-collapse border border-gray-500 w-full ">
   <thead>
     <tr>
@@ -52,10 +52,10 @@ function CourseList() {
   <tbody>
     {enrolled?.length>0 ?
     enrolled?.map((item,index)=>(<tr>
-      <td class="border border-gray-500 px-4 py-2">{index+1}</td>
-      <td class="border border-gray-500 px-4 py-2">{item.courseTitle}</td>
-      <td class="border border-gray-500 px-4 py-2">{item.totalEarnings}</td>
-      <td class="border border-gray-500 px-4 py-2">{item.totalStudents}</td>
+      <td class="border border-gray-500 px-4 py-2 font-bold">{index+1}</td>
+      <td class="border border-gray-500 px-4 py-2 font-bold">{item.courseTitle}</td>
+      <td class="border border-gray-500 px-4 py-2 font-bold">{item.totalEarnings}</td>
+      <td class="border border-gray-500 px-4 py-2 font-bold">{item.totalStudents}</td>
     </tr>))
     :
     <p>No Data</p>

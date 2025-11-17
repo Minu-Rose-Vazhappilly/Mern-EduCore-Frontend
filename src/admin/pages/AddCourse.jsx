@@ -199,7 +199,7 @@ try{
   };
 
   return (
-    <div>
+    <div className="font-bold"  style={{backgroundImage:`url("https://cdn.wallpapersafari.com/9/77/1UDgMj.jpg")`,backgroundPosition:"center",backgroundSize:"cover",backgroundRepeat:"no-repeat"}}>
       <AdminHeader />
       <div className="md:grid grid-cols-3">
         <div className="col-span-1">
@@ -208,7 +208,7 @@ try{
         <div className="col-span-2 p-5">
           <form>
             {/* Course Details */}
-            <div className="mb-4">
+            <div className="mb-2">
               <input
                 type="text"
                 placeholder="Course Type"
@@ -230,19 +230,24 @@ try{
                 onChange={(e) =>
                   handleCourseChange("courseDescription", e.target.value)
                 }
-              />
+              /><br/>
               <input
                 type="number"
                 placeholder="Price"
                 className="border border-gray-300 rounded-lg md:w-40 w-full p-2 mb-2"
                 value={courseDetails.price}
                 onChange={(e) => handleCourseChange("price", e.target.value)}
-              />
-              <input
-                type="file"
-                onChange={(e) => handleCourseChange("thumbnail", e.target.files[0])}
-                className="mb-4"
-              />
+              /><br/>
+              <label htmlFor="thumbnailCourse">
+                <input
+                  type="file"
+                  onChange={(e) => handleCourseChange("thumbnail", e.target.files[0])}
+                  className="mb-4 hidden"
+                  placeholder="choose a thumbnail"
+                  id="thumbnailCourse"
+                />
+                Choose a Thumbnail
+              </label>
               {
                 imgPreview && 
                 <img src={imgPreview} alt="" width={"300px"} height={"50px"} />

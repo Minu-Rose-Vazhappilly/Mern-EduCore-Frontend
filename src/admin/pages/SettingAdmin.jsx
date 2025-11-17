@@ -97,7 +97,7 @@ function SettingAdmin() {
         }
 
   return (
-    <div>
+    <div style={{backgroundImage:`url("https://cdn.wallpapersafari.com/9/77/1UDgMj.jpg")`,backgroundPosition:"center",backgroundSize:"cover",backgroundRepeat:"no-repeat"}}>
       <AdminHeader />
       <div className='md:flex'>
         <div className='col-span-1'><AdminSideBar /></div>
@@ -109,10 +109,10 @@ function SettingAdmin() {
 
             <div className='md:grid grid-cols-2 mt-5 gap-6'>
               <div className=''>
-                <h1 className='text-justify'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quis odit eius saepe cumque, debitis repellendus tempora perspiciatis deleniti eos magni alias fugiat recusandae, numquam illo vel amet. Dignissimos, ducimus nostrum?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Adipisci harum obcaecati maiores aliquam, impedit possimus? Quo voluptas velit nisi, nesciunt fugit optio voluptate sequi obcaecati, veniam animi nemo eligendi? Corporis.</h1>
+                <h1 className='text-justify text-grey-400 font-bold'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quis odit eius saepe cumque, debitis repellendus tempora perspiciatis deleniti eos magni alias fugiat recusandae, numquam illo vel amet. Dignissimos, ducimus nostrum?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Adipisci harum obcaecati maiores aliquam, impedit possimus? Quo voluptas velit nisi, nesciunt fugit optio voluptate sequi obcaecati, veniam animi nemo eligendi? Corporis.</h1>
                 <br />
                 <br />
-                <h1 className='text-justify'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum, vitae nobis porro dolorem at odit sit, tempore molestias exercitationem neque iure sunt sint corporis eos adipisci provident omnis dicta in.</h1>
+                <h1 className='text-justify text-grey-400 font-bold'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum, vitae nobis porro dolorem at odit sit, tempore molestias exercitationem neque iure sunt sint corporis eos adipisci provident omnis dicta in.</h1>
               </div>
               <div>
                 <div className="bg-[#CFCDB6] md:mt-0 mt-5 rounded-lg flex flex-col justify-center items-center py-5  w-full max-w-[350px] aspect-[5/4] mx-auto " >

@@ -6,12 +6,15 @@ import { ToastContainer,toast } from 'react-toastify'
 import { googleloginAPI, loginAPI, registerAPI } from '../services/allAPI'
 import { GoogleLogin } from '@react-oauth/google'
 import { jwtDecode } from "jwt-decode";
+import { userAuthContext } from '../contextAPI/AuthContext'
+import { useContext } from 'react'
 
 
 function Auth({register}) {
   const [viewPasswordStatus,setViewPasswordStatus] = useState(false)
   const [userDetails,setUserDetails] = useState({username:"",email:"",password:""})
   const navigate = useNavigate()
+  const {role,setRole,authorisedUser,setAuthorisedUser} = useContext(userAuthContext)
 
   const handleRegister = async()=>{
     console.log("Inside handleRegister");
@@ -56,6 +59,8 @@ function Auth({register}) {
           toast.success("Login successful")
           sessionStorage.setItem("user",JSON.stringify(result.data.user))
           sessionStorage.setItem("token",result.data.token)
+          setAuthorisedUser(true)
+          setRole(result.data.user.role)
           setTimeout(()=>{
             if(result.data.user.role == 'admin'){
               navigate('/admin-dashboard')
@@ -98,6 +103,8 @@ function Auth({register}) {
         toast.success('Login Successful')
         sessionStorage.setItem("user",JSON.stringify(result.data.user))
         sessionStorage.setItem("token",result.data.token)
+        setAuthorisedUser(true)
+        setRole(result.data.user.role)
           setTimeout(()=>{
               if(result.data.user.role == "admin"){
                 navigate('/admin-dashboard')

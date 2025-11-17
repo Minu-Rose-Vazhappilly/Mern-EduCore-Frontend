@@ -21,11 +21,15 @@ import StudentsEnrolled from './admin/pages/StudentsEnrolled'
 import CourseList from './admin/pages/CourseList'
 import PaymentSuccess from './users/pages/PaymentSuccess'
 import PaymentError from './users/pages/PaymentError'
+import { useContext } from 'react'
+import { userAuthContext } from './contextAPI/AuthContext'
 
 
 
 function App() {
  
+ const {role,setRole,authorisedUser,setAuthorisedUser} = useContext(userAuthContext)
+  
   const [loading,setLoading] = useState(true)
   useEffect(()=>{
     setTimeout(()=>{
@@ -39,21 +43,29 @@ function App() {
       <Route path='/login' element={<Auth/>}/>
       <Route path='/register' element={<Auth register={true}/>}/>
       <Route path='/all-courses' element={<AllCourses/>} />
-      <Route path='/payment-success' element={<PaymentSuccess/>}/>
-      <Route path='/payment-error' element={<PaymentError/>}/>
-      <Route path='/:id/viewcourse' element={<ViewCourse/>} />
-      <Route path='/profile' element={<Profile/>} />
-      <Route path='/:id/course' element={<Course/>} />
+      {
+        role == "user" && 
+        <>
+        <Route path='/payment-success' element={<PaymentSuccess/>}/>
+        <Route path='/payment-error' element={<PaymentError/>}/>
+        <Route path='/:id/viewcourse' element={<ViewCourse/>} />
+        <Route path='/my-enrollments' element={<MyEnrollments/>} />
+        <Route path='/profile' element={<Profile/>} />
+        <Route path='/:id/course' element={<Course/>} />
+      </>}
       <Route path='/careers' element={<Careers/>} />
-      <Route path='/my-enrollments' element={<MyEnrollments/>} />
       <Route path='/contact' element={<Contact/>} />
-      <Route path='/admin-dashboard' element={loading?<Preloader/>:<DashboardAdmin/>}/>
-      <Route path='/admin-resources' element={<ResourceAdmin/>} />
-      <Route path='/admin-settings' element={<SettingAdmin/>} />
-      <Route path='/add-course' element={<AddCourse/>} />
-      <Route path='/students-enrolled' element={<StudentsEnrolled/>} />
-      <Route path='/course-list' element={<CourseList/>} />
-      <Route path='/admin-career' element={<CareerAdmin/>} />
+      {
+        role == "admin" && 
+        <>
+        <Route path='/admin-dashboard' element={loading?<Preloader/>:<DashboardAdmin/>}/>
+        <Route path='/admin-resources' element={<ResourceAdmin/>} />
+        <Route path='/admin-settings' element={<SettingAdmin/>} />
+        <Route path='/add-course' element={<AddCourse/>} />
+        <Route path='/students-enrolled' element={<StudentsEnrolled/>} />
+        <Route path='/course-list' element={<CourseList/>} />
+        <Route path='/admin-career' element={<CareerAdmin/>} />
+      </>}
 
 
 
