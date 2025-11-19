@@ -180,7 +180,26 @@ try{
 
 }
 
-
+const handleReset = async()=>{
+  setCourseDetails({
+    courseType: "",
+    courseTitle: "",
+    courseDescription: "",
+    price: "",
+    thumbnail: null,
+    modules: [
+      {
+        moduleTitle: "",
+        moduleDescription: "",
+        videos: [{ videotitle: "" }],
+        pdfs: [{ pdftitle: "" }],
+      },
+    ],videoUrl: [],
+    fileUrl:[]
+  })
+  setImgPreview("")
+  setPreviewList([])
+}
   // Add new module
   const addModule = () => {
     setCourseDetails((prev) => ({
@@ -368,7 +387,7 @@ try{
             </button>
             <div className="flex justify-end w-full px-5">
                         <button type="button" onClick={handleSubmit}  className='bg-amber-600 text-white rounded  border py-3 px-4 hover:text-amber-600 hover:border-amber-600 hover:bg-white me-3'>Submit</button>
-                         <button type="button"  className='bg-green-600 text-white rounded  border py-3 px-4 hover:text-green-600 hover:border-green-600 hover:bg-white'>Reset</button>
+                         <button type="button" onClick={handleReset}  className='bg-green-600 text-white rounded  border py-3 px-4 hover:text-green-600 hover:border-green-600 hover:bg-white'>Reset</button>
                     </div>
           </form>
 
