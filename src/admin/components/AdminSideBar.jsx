@@ -147,7 +147,18 @@ function AdminSideBar() {
                         transition-all duration-300 cursor-pointer"
             >
               <FontAwesomeIcon icon={faBook} />
-              My Courses
+              Enrolled Courses
+            </Link>
+          </div>
+          <div className="mt-3">
+            <Link
+              to={'/admin-resources'}
+              className="flex items-center gap-x-2 px-3 py-2 rounded-lg 
+                        hover:bg-[#b8b6a4] hover:text-black hover:scale-[1.03] 
+                        transition-all duration-300 cursor-pointer"
+            >
+              <FontAwesomeIcon icon={faBook} />
+              All Courses
             </Link>
           </div>
 

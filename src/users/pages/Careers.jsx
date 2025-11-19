@@ -100,17 +100,18 @@ function Careers() {
   return (
     <>
       <Header />
-      <div className='p-5'>
-        <div className='flex justify-center  flex-col  py-5'>
-          <h1 className='text-xl text-center '>Careers</h1>
-          <p className='md:text-center md:mx-40 text-justify'>
+      <div className='' >
+        <div className='flex justify-center h-75  flex-col  p-5 w-full' style={{backgroundImage:`url("https://img.freepik.com/premium-photo/atmosphere-around-office-blurred-background_875825-137867.jpg")`,backgroundPosition:"center",backgroundSize:"cover",backgroundRepeat:"no-repeat"}}>
+          <h1 className='text-xl text-center text-white font-bold '>Careers</h1>
+          <p className='md:text-center md:mx-40 text-justify text-white font-bold'>
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto odio nesciunt commodi soluta ipsum, asperiores doloremque excepturi quasi delectus! Harum repudiandae assumenda provident, placeat unde nemo ad rerum quidem dolor.
           </p>
-          <p className='md:mx-25 mt-5'>Current Opennings</p>
+          
 
         </div>
 
-        <div className='flex justify-center md:items-center flex-col '>
+        <div className='flex justify-center md:items-center flex-col p-3 '>
+          <p className='md:mx-25 mt-5 mb-3'>Current Opennings</p>
           <div className='flex '>
             <input onChange={e=>setSearchKey(e.target.value)} type="text" className='round-l border border-gray-300 p-2 focus-outline:none' placeholder='Job title' />
             <button className='bg-green-500 p-2 round-r'>Search</button>
@@ -216,6 +217,17 @@ function Careers() {
         </div>
 
       }
+      <div className='flex justify-center h-75  flex-col  p-5 w-full' style={{backgroundImage:`url("https://tse2.mm.bing.net/th/id/OIP.4Z7QgVK0YHWgQa93Jw1f5QHaEP?pid=Api&P=0&h=180")`,backgroundPosition:"center",backgroundSize:"cover",backgroundRepeat:"no-repeat"}}>
+          <ul className='text-white font-bold'>
+  <li>Friendly and collaborative work culture</li>
+  <li>Standard office timings: 9:30 AM – 6:00 PM</li>
+  <li>Focus on learning and continuous improvement</li>
+  <li>Supportive team and leadership</li>
+  <li>Opportunity to work with modern technologies</li>
+</ul>
+          
+
+        </div>
 
 
       <Footer />
